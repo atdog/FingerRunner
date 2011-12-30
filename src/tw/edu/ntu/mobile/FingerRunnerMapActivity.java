@@ -22,6 +22,7 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 
 import android.R.integer;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +38,7 @@ public class FingerRunnerMapActivity extends MapActivity {
 	private List<GeoPoint> pathPoints;
 	private Handler mHandler;
 	private Handler centerHandler;
+	private Context myContext;
 
 	
     private VelocityTracker m_tracker;
@@ -77,6 +79,8 @@ public class FingerRunnerMapActivity extends MapActivity {
 
 		List<Overlay> overlays = mapView.getOverlays();
 		overlays.add(mylayer);
+		
+		myContext = this;
 	}
 
 	public Handler handler = new Handler() {
@@ -214,7 +218,9 @@ public class FingerRunnerMapActivity extends MapActivity {
 			// TODO Auto-generated method stub
 			GeoPoint startPoint = (GeoPoint) msg.obj;
 			mapView.getController().setCenter((GeoPoint) msg.obj);
+			mapView.getOverlays().add(new MarkerOverlay(myContext, startPoint, R.drawable.test));
 			// Log.d("map",startPoint.toString());
+			mapView.invalidate();
 			super.handleMessage(msg);
 		}
 	}
