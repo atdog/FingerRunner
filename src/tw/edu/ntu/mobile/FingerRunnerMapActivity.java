@@ -3,6 +3,7 @@ package tw.edu.ntu.mobile;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -13,6 +14,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -30,6 +32,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class FingerRunnerMapActivity extends MapActivity {
 	private MapView mapView;
@@ -52,19 +56,40 @@ public class FingerRunnerMapActivity extends MapActivity {
     private long touchtime = 0;//用來判斷使用者是否同時用兩隻手在玩
     private float totalLength = 0;
     private int delayMillis = 500;
-
+    
+    private JSONArray conerList;//用來紀錄轉角資訊的JSONArray
+    private int coner_num;//用來紀錄到第幾個轉角的變數
+    private Boolean inLine;//用來判斷是否要到下一段路了
+    private Double preLat_y;//計算位移量 
+    private Double prelng_x;//計算位移量 
+    
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//消除標題列
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//消除狀態列
+	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		setContentView(R.layout.main);
+		
+		
 		mHandler = new mainHandler();
 		centerHandler = new centerHandler();
 		// map 羅盤, built in zoom in/out init
 		mapInit();
 		// draw the first route path
 		new RoutePath().execute("台灣大學", "台灣科技大學");
-
+		
+		//初始化記錄轉角資訊的JSONArray
+		conerList = new JSONArray();
+		coner_num = 0;
+		inLine = false;
+		preLat_y = 0.0;
+		prelng_x = 0.0;
+		
+		Log.d("Archer","現在位於「"+RouteInfo.LatLngToAddressName(25.015508, 121.542471)+"」上");
 	}
 
 	public void mapInit() {
@@ -133,7 +158,21 @@ public class FingerRunnerMapActivity extends MapActivity {
 					String polyline = routeObject.getJSONObject(0)
 							.getJSONObject("overview_polyline")
 							.getString("points");
-
+					
+					
+					for(int i=0;i<routeObject.getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").length();i++){
+//						Log.d("Archer","方向提示>>"+routeObject.getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").getJSONObject(i).getString("html_instructions"));
+//						Log.d("Archer","上述那一段路起點緯度(Y)"+routeObject.getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").getJSONObject(i).getJSONObject("start_location").getDouble("lat"));
+//						Log.d("Archer","上述那一段路起點經度(X)"+routeObject.getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").getJSONObject(i).getJSONObject("start_location").getDouble("lng"));
+//						Log.d("Archer","上述那一段路終點緯度(Y)"+routeObject.getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").getJSONObject(i).getJSONObject("end_location").getDouble("lat"));
+//						Log.d("Archer","上述那一段路終點經度(X)"+routeObject.getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").getJSONObject(i).getJSONObject("end_location").getDouble("lng")+"\n\n");
+						
+						conerList = routeObject.getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps");
+						
+					}
+					
+					
+					
 					if (polyline.length() > 0) {
 						decodePolylines(polyline);
 
@@ -218,11 +257,113 @@ public class FingerRunnerMapActivity extends MapActivity {
 			// TODO Auto-generated method stub
 			GeoPoint startPoint = (GeoPoint) msg.obj;
 			mapView.getController().setCenter((GeoPoint) msg.obj);
-			mapView.getOverlays().add(new MarkerOverlay(myContext, startPoint, R.drawable.test));
-			// Log.d("map",startPoint.toString());
-			mapView.invalidate();
-			super.handleMessage(msg);
+			Double nowLat_y = startPoint.getLatitudeE6()/1000000.0;
+			Double nowlng_x = startPoint.getLongitudeE6()/1000000.0;
+ 
+			//下列四個變數為，用來幫助判斷是否在某段路上的變數
+			Double startLat_y;
+			Double endLat_y;
+			Double startLng_x;
+			Double endLng_x;
+			
+			
+			//Log.d("Archer",String.valueOf(startPoint.getLongitudeE6()/1000000.0));
+			//Log.d("Archer",String.valueOf(startPoint.getLatitudeE6()/1000000.0));
+			
+			
+			
+			if(Math.abs(nowLat_y-preLat_y)>(0.000025*4)||Math.abs(nowlng_x-prelng_x)>(0.000025*4)){
+				Log.d("Archer"," 現在位於「"+RouteInfo.LatLngToAddressName(nowLat_y, nowlng_x)+"」上");
+				preLat_y = nowLat_y;
+				prelng_x = nowlng_x;
+			}
+			
+			
+			//判斷現在是在那一段路上（用轉角跟轉角之間來判斷）
+			if(conerList!=null&&coner_num<conerList.length()-1){
+					
+					try {
+						startLat_y = conerList.getJSONObject(coner_num).getJSONObject("start_location").getDouble("lat");
+						startLng_x = conerList.getJSONObject(coner_num).getJSONObject("start_location").getDouble("lng");
+						endLat_y = conerList.getJSONObject(coner_num).getJSONObject("end_location").getDouble("lat");
+						endLng_x = conerList.getJSONObject(coner_num).getJSONObject("end_location").getDouble("lng");
+						
+						if(Math.abs(startLat_y-endLat_y)>Math.abs(startLng_x-endLng_x)){
+							//上下的路
+							if(startLat_y-endLat_y>0){
+								//向上的路，並查看現在是否在那條路上
+								if(nowLat_y<startLat_y&&nowLat_y>endLat_y&&!inLine){
+									Log.d("Archer","現在位於「"+RouteInfo.LatLngToAddressName(nowLat_y, nowlng_x)+"」上，前面轉角處>>"+conerList.getJSONObject(coner_num+1).getString("html_instructions"));
+									inLine = true;
+								}else if(inLine&&nowLat_y-0.000025<=endLat_y){
+									//走到下一段路了
+									
+									inLine = false;
+									coner_num++;
+								}
+							}else{
+								//向下的路
+								if(nowLat_y>startLat_y&&nowLat_y<endLat_y&&!inLine){
+									Log.d("Archer","現在位於「"+RouteInfo.LatLngToAddressName(nowLat_y, nowlng_x)+"」上，前面轉角處>>"+conerList.getJSONObject(coner_num+1).getString("html_instructions"));
+									inLine = true;
+								}else if(inLine&&nowLat_y>=endLat_y-0.000025){
+									//走到下一段路了
+									inLine = false;
+									coner_num++;
+								}
+							}
+						}else{
+							//左右的路
+							if(startLng_x-endLng_x>0){
+								//向左的路，並查看現在是否在那條路上
+								if(nowlng_x<startLng_x&&nowlng_x>endLng_x&&!inLine){
+									//RouteInfo.LatLngToAddressName(nowLat_y, nowlng_x);
+									
+									Log.d("Archer","現在位於「"+RouteInfo.LatLngToAddressName(nowLat_y, nowlng_x)+"」上，前面轉角處>>"+conerList.getJSONObject(coner_num+1).getString("html_instructions"));
+									inLine = true;
+								}else if(inLine&&nowlng_x-0.000025<=endLng_x){
+									//走到下一段路了
+
+									inLine = false;
+									coner_num++;
+								}
+							}else{
+								//向右的路
+								if(nowlng_x>startLng_x&&nowlng_x<endLng_x&&!inLine){
+									Log.d("Archer","現在位於「"+RouteInfo.LatLngToAddressName(nowLat_y, nowlng_x)+"」上，前面轉角處>>"+conerList.getJSONObject(coner_num+1).getString("html_instructions"));
+									inLine = true;
+								}else if(inLine&&nowlng_x>=endLng_x-0.000025){
+									//走到下一段路了
+									inLine = false;
+									coner_num++;
+								}
+							}
+						
+						
+						}
+						
+						
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+					
+				}else if(!inLine){
+					Log.d("Archer"," 現在位於「"+RouteInfo.LatLngToAddressName(nowLat_y, nowlng_x)+"」上");
+					inLine = true;
+				}
+			//Log.d("Archer",msg.obj.toString());
+			//多人連線的時候再用
+//			mapView.getOverlays().add(new MarkerOverlay(myContext, startPoint, R.drawable.test));
+//			// Log.d("map",startPoint.toString());
+//			mapView.invalidate();
+//			super.handleMessage(msg);
+		
+		
 		}
+		
 	}
 
 	@Override
@@ -241,7 +382,7 @@ public class FingerRunnerMapActivity extends MapActivity {
 			case 0:
 				point0_up_Y = (int) event.getY(event.getActionIndex());
 				// Log.d("Archer","放開PointerId"+event.getPointerId((event.getActionIndex()))+"Ｙ坐標："+event.getY());
-				if ((point0_up_Y - point0_down_Y) >= 65) {
+				if ((point0_up_Y - point0_down_Y) >= 50) {
 
 					// 如果時間間隔沒有超過一定時間的話（這邊是25），代表他用兩隻手指頭一起完，就不加一步了
 					if (date.getTime() - 25 > touchtime) {
@@ -255,7 +396,7 @@ public class FingerRunnerMapActivity extends MapActivity {
 			case 1:
 				point1_up_Y = (int) event.getY(event.getActionIndex());
 				// Log.d("Archer","放開PointerId"+event.getPointerId((event.getActionIndex()))+"Ｙ坐標："+point1_up_Y);
-				if ((point1_up_Y - point1_down_Y) >= 65) {
+				if ((point1_up_Y - point1_down_Y) >= 50) {
 
 					// 如果時間間隔沒有超過一定時間的話（這邊是25），代表他用兩隻手指頭一起完，就不加一步了
 					if (date.getTime() - 25 > touchtime) {
@@ -281,7 +422,7 @@ public class FingerRunnerMapActivity extends MapActivity {
 			case 0:
 				point0_up_Y = (int) event.getY(event.getActionIndex());
 				// Log.d("Archer","放開PointerId"+event.getPointerId((event.getActionIndex()))+"Ｙ坐標："+event.getY());
-				if ((point0_up_Y - point0_down_Y) >= 65) {
+				if ((point0_up_Y - point0_down_Y) >= 50) {
 
 					Log.d("Archer", "走了一步");
 					steps++;
@@ -291,7 +432,7 @@ public class FingerRunnerMapActivity extends MapActivity {
 			case 1:
 				point1_up_Y = (int) event.getY(event.getActionIndex());
 				// Log.d("Archer","放開PointerId"+event.getPointerId((event.getActionIndex()))+"Ｙ坐標："+point1_up_Y);
-				if ((point1_up_Y - point1_down_Y) >= 65) {
+				if ((point1_up_Y - point1_down_Y) >= 50) {
 
 					Log.d("Archer", "走了一步");
 					steps++;
