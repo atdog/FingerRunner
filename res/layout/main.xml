@@ -18,12 +18,45 @@
 		android:apiKey="0OsoYfV6EkxLvJZX4w3ZFBFxb0QHlaswGDqhqfQ" />
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/meImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:src="@drawable/test" />
+
+        <TextView
+            android:id="@+id/hintTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+			android:layout_centerHorizontal="true"
+			android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="現在位於"
+            android:textColor="#000000"
+            android:textSize="30dp" />
+        <TextView
+            android:id="@+id/routeNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+			android:layout_centerHorizontal="true"
+            android:layout_marginTop="42dp"
+            android:text="路名"
+            android:textColor="#000000"
+            android:textSize="30dp" />
+
+        <ImageView
+            android:id="@+id/directionImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/arrow_left" />
         
     </RelativeLayout>
 

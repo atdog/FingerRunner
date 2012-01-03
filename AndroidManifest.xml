@@ -14,7 +14,7 @@
         android:label="@string/app_name" >
         <activity
             android:label="@string/app_name"
-            android:name=".FingerRunnerMapActivity"
+            android:name=".ChooseVenueActivity"
              android:screenOrientation="portrait"
              >
             <intent-filter >
@@ -24,6 +24,10 @@
             </intent-filter>
         </activity>
         <uses-library android:name="com.google.android.maps" />
+        <activity android:name="ChooseVenueActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name="FingerRunnerMapActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
