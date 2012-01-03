@@ -107,10 +107,7 @@ public class FingerRunnerMapActivity extends MapActivity {
 		// map 羅盤, built in zoom in/out init
 		mapInit();
 		// draw the first route path
-		
-		//getIntent().getExtras().getString(key);
-		
-		new RoutePath().execute("台灣大學", "台灣科技大學");
+		new RoutePath().execute(getIntent().getExtras().getString("start"), getIntent().getExtras().getString("end"));
 		
 		//初始化記錄轉角資訊的JSONArray
 		conerList = new JSONArray();
@@ -338,26 +335,26 @@ public class FingerRunnerMapActivity extends MapActivity {
 							Log.d("Archer","me>>"+nowLat_y+","+nowlng_x);
 							switch (direction) {
 							case 0:
-								if((coner_num==conerList.length()-1)&&nowLat_y>=endLat_y-0.00005){
+								if((coner_num==conerList.length()-1)&&nowLat_y>=endLat_y-0.000075){
 									Log.d("Archer","跑完了");
 									finish();
 								}
 								break;
 							case 1:
-								if((coner_num==conerList.length()-1)&&nowLat_y-0.00005<=endLat_y){
+								if((coner_num==conerList.length()-1)&&nowLat_y-0.000075<=endLat_y){
 									Log.d("Archer","跑完了");
 									finish();
 								}
 								
 								break;
 							case 2:
-								if((coner_num==conerList.length()-1)&&nowlng_x-0.00005<=endLng_x){
+								if((coner_num==conerList.length()-1)&&nowlng_x-0.000075<=endLng_x){
 									Log.d("Archer","跑完了");
 									finish();
 								}
 								break;
 							case 3:
-								if((coner_num==conerList.length()-1)&&nowlng_x>=endLng_x-0.00005){
+								if((coner_num==conerList.length()-1)&&nowlng_x>=endLng_x-0.000075){
 									Log.d("Archer","跑完了");
 									finish();
 								}

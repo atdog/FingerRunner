@@ -51,7 +51,7 @@ public class ChooseVenueActivity extends Activity {
 				// TODO Auto-generated method stub
 				Bundle b = new Bundle();
 				b.putString("start", startEditText.getText().toString());
-				b.putString("end", startEditText.getText().toString());
+				b.putString("end", endEditText.getText().toString());
 				Intent intent = new Intent();
 				intent.putExtras(b);
 		

@@ -12,8 +12,7 @@
         <EditText android:id="@+id/startEditText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:numeric="integer"
-            android:text="台灣大學"
+            android:text="台灣科技大學"
             />
         <TextView
             android:layout_width="fill_parent"
@@ -23,8 +22,7 @@
          <EditText android:id="@+id/endEditText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:numeric="integer"
-            android:text="台灣科技大學"
+            android:text="台灣大學"
             />
          <Button android:id="@+id/startButton"
             android:layout_width="fill_parent"
