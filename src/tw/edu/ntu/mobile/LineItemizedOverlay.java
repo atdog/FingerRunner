@@ -89,7 +89,11 @@ public class LineItemizedOverlay extends Overlay {
 					path.lineTo(p.x, p.y);
 					Message m = new Message();
 					m.obj = prj.fromPixels(startPoint.x, startPoint.y);
-					mainHandler.sendMessage(m);
+					if(FingerRunnerMapActivity.centerchange){
+						mainHandler.sendMessage(m);
+						FingerRunnerMapActivity.centerchange =false;
+					}
+					
 					findStartPoint = true;
 				} else if (previousPathLength == subLength) {
 					path.moveTo(p.x, p.y);

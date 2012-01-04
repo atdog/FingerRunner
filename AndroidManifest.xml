@@ -24,9 +24,14 @@
             </intent-filter>
         </activity>
         <uses-library android:name="com.google.android.maps" />
+        
         <activity android:name="ChooseVenueActivity"
             android:screenOrientation="portrait"></activity>
+        
         <activity android:name="FingerRunnerMapActivity"
+            android:screenOrientation="portrait"></activity>
+        
+        <activity android:name="ShowRunTimeActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 
