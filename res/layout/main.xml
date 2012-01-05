@@ -5,7 +5,8 @@
     android:orientation="vertical" >
 
 	<!-- 0OsoYfV6EkxLvJZX4w3ZFBFxb0QHlaswGDqhqfQ 阿哲的-->
-	<!-- 0sztJXlgjBBIMdxXOpBF43Td5OX0aCXEqlvB-aA 燒到實機用的 -->
+	<!-- 0sztJXlgjBBIMdxXOpBF43Td5OX0aCXEqlvB-aA  -->
+	<!-- 0sztJXlgjBBJQG90WQr3SoCQDGq5-glN4js6gOQ燒到實機用的 -->
 
     <RelativeLayout
         android:id="@+id/relativeLayout1"
@@ -15,7 +16,7 @@
 		android:id="@+id/mapView"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:clickable="false" 
-		android:apiKey="0sztJXlgjBBJQG90WQr3SoCQDGq5-glN4js6gOQ" />
+		android:apiKey="0OsoYfV6EkxLvJZX4w3ZFBFxb0QHlaswGDqhqfQ" />
 
         <ImageView
             android:id="@+id/meImageView"

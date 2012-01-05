@@ -22,10 +22,12 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -97,6 +99,15 @@ public class FingerRunnerMapActivity extends MapActivity {
     //紀錄時間
     Long minius;
     Long seconds;
+    Long milliseconds;
+    
+    
+  //otherRunner
+    OtherRunnerOverlay otherRunnerOverlay;
+//    Double otherRunner_Lat_y;
+//    Double otherRunner_Lng_x;
+    GeoPoint otherRunnerPoint;
+    boolean hasOther = true;
     
 	/** Called when the activity is first created. */
 	@Override
@@ -135,6 +146,8 @@ public class FingerRunnerMapActivity extends MapActivity {
 		//設定Delay的時間
 		timehandler.postDelayed(updateTimer, 1000);
 		
+		//Other
+		//hasOther = getIntent().getExtras().getBoolean();
 		
 		Log.d("Archer","現在位於「"+RouteInfo.LatLngToAddressName(25.015508, 121.542471)+"」上");
 	}
@@ -148,6 +161,8 @@ public class FingerRunnerMapActivity extends MapActivity {
 		minius = (spentTime/1000)/60;
 		//計算目前已過秒數
 		seconds = (spentTime/1000) % 60;
+		
+		milliseconds = spentTime % 1000;
 		
 		handler.postDelayed(this, 1000);
 	}
@@ -341,9 +356,42 @@ public class FingerRunnerMapActivity extends MapActivity {
 			Double endLng_x=0.0;
 			
 			
+			
 			//Log.d("Archer",String.valueOf(startPoint.getLongitudeE6()/1000000.0));
 			//Log.d("Archer",String.valueOf(startPoint.getLatitudeE6()/1000000.0));
+			if(hasOther){
+				
+				MarkerOverlay markerOverlay;
+				switch (direction) {
+				
+				case 0:
+					otherRunnerPoint = new GeoPoint(  (int)(preLat_y*1e6), (int)(prelng_x*1e6));
+					 markerOverlay = new MarkerOverlay(myContext, otherRunnerPoint, R.drawable.up);
+					mapView.getOverlays().add(markerOverlay);
+					break;
+				case 1:
+					otherRunnerPoint = new GeoPoint(  (int)(preLat_y*1e6), (int)(prelng_x*1e6));
+					 markerOverlay = new MarkerOverlay(myContext, otherRunnerPoint, R.drawable.down);
+					mapView.getOverlays().add(markerOverlay);
+					break;
+				case 2:
+					otherRunnerPoint = new GeoPoint(  (int)(preLat_y*1e6), (int)(prelng_x*1e6));
+					 markerOverlay = new MarkerOverlay(myContext, otherRunnerPoint, R.drawable.left);
+					mapView.getOverlays().add(markerOverlay);
+					break;
+				case 3:
+					otherRunnerPoint = new GeoPoint(  (int)(preLat_y*1e6), (int)(prelng_x*1e6));
+					 markerOverlay = new MarkerOverlay(myContext, otherRunnerPoint, R.drawable.right);
+					mapView.getOverlays().add(markerOverlay);
+					break;
+
+				default:
+					break;
+				}
+			}
 			
+			
+			//Log.d("map",newPoint.toString());
 			
 			
 			if((Math.abs(nowLat_y-preLat_y)>(0.000025*6)||Math.abs(nowlng_x-prelng_x)>(0.000025*6))&&!showRouteName){
@@ -353,6 +401,9 @@ public class FingerRunnerMapActivity extends MapActivity {
 				showRouteName = true;
 				preLat_y = nowLat_y;
 				prelng_x = nowlng_x;
+				
+
+				
 			}
 			
 			
@@ -569,12 +620,16 @@ public class FingerRunnerMapActivity extends MapActivity {
 								b.putString("end", getIntent().getExtras().getString("end"));
 								b.putLong("minius", minius);
 								b.putLong("seconds", seconds);
+								b.putLong("milliseconds", milliseconds);
+								b.putBoolean("hasOther", hasOther);
 								Intent intent = new Intent();
 								intent.putExtras(b);
 						
 								intent.setClass(FingerRunnerMapActivity.this, ShowRunTimeActivity.class);
 								
 								startActivity(intent);
+								
+								
 								finish();
 							}
 							break;
@@ -586,6 +641,8 @@ public class FingerRunnerMapActivity extends MapActivity {
 								b.putString("end", getIntent().getExtras().getString("end"));
 								b.putLong("minius", minius);
 								b.putLong("seconds", seconds);
+								b.putLong("milliseconds", milliseconds);
+								b.putBoolean("hasOther", hasOther);
 								Intent intent = new Intent();
 								intent.putExtras(b);
 						
@@ -604,6 +661,8 @@ public class FingerRunnerMapActivity extends MapActivity {
 								b.putString("end", getIntent().getExtras().getString("end"));
 								b.putLong("minius", minius);
 								b.putLong("seconds", seconds);
+								b.putLong("milliseconds", milliseconds);
+								b.putBoolean("hasOther", hasOther);
 								Intent intent = new Intent();
 								intent.putExtras(b);
 						
@@ -621,6 +680,8 @@ public class FingerRunnerMapActivity extends MapActivity {
 								b.putString("end", getIntent().getExtras().getString("end"));
 								b.putLong("minius", minius);
 								b.putLong("seconds", seconds);
+								b.putLong("milliseconds", milliseconds);
+								b.putBoolean("hasOther", hasOther);
 								Intent intent = new Intent();
 								intent.putExtras(b);
 						
