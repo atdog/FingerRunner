@@ -355,7 +355,7 @@ public class FingerRunnerMapActivity extends MapActivity {
 			Double startLng_x;
 			Double endLng_x=0.0;
 			
-			
+			otherRunnerPoint = new GeoPoint(  (int)(preLat_y*1e6), (int)(prelng_x*1e6));
 			
 			//Log.d("Archer",String.valueOf(startPoint.getLongitudeE6()/1000000.0));
 			//Log.d("Archer",String.valueOf(startPoint.getLatitudeE6()/1000000.0));
@@ -365,22 +365,22 @@ public class FingerRunnerMapActivity extends MapActivity {
 				switch (direction) {
 				
 				case 0:
-					otherRunnerPoint = new GeoPoint(  (int)(preLat_y*1e6), (int)(prelng_x*1e6));
+					
 					 markerOverlay = new MarkerOverlay(myContext, otherRunnerPoint, R.drawable.up);
 					mapView.getOverlays().add(markerOverlay);
 					break;
 				case 1:
-					otherRunnerPoint = new GeoPoint(  (int)(preLat_y*1e6), (int)(prelng_x*1e6));
+					
 					 markerOverlay = new MarkerOverlay(myContext, otherRunnerPoint, R.drawable.down);
 					mapView.getOverlays().add(markerOverlay);
 					break;
 				case 2:
-					otherRunnerPoint = new GeoPoint(  (int)(preLat_y*1e6), (int)(prelng_x*1e6));
+					
 					 markerOverlay = new MarkerOverlay(myContext, otherRunnerPoint, R.drawable.left);
 					mapView.getOverlays().add(markerOverlay);
 					break;
 				case 3:
-					otherRunnerPoint = new GeoPoint(  (int)(preLat_y*1e6), (int)(prelng_x*1e6));
+					
 					 markerOverlay = new MarkerOverlay(myContext, otherRunnerPoint, R.drawable.right);
 					mapView.getOverlays().add(markerOverlay);
 					break;
