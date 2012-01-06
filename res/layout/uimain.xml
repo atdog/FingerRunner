@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/single_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="單人遊戲" />
+
+    <Button
+        android:id="@+id/multiple_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="多人遊戲" />
+
+    <Button
+        android:id="@+id/setting_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="設置選項" />
+
+</LinearLayout>

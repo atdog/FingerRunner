@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="#AAA">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="輸入賽道名稱: "
+        android:textColor="#000"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/editTextRaceName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:singleLine="true">
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="輸入起點: "
+        android:textColor="#000"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/startLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:singleLine="true"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="輸入終點"
+        android:textColor="#000"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/endLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:singleLine="true"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/create_race_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="建立" 
+            android:layout_weight="0.5"/>
+
+        <Button
+            android:id="@+id/cancel_race_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="取消" 
+            android:layout_weight="0.5"/>
+    </LinearLayout>
+
+</LinearLayout>

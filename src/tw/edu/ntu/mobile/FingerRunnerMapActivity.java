@@ -147,7 +147,7 @@ public class FingerRunnerMapActivity extends MapActivity {
 		timehandler.postDelayed(updateTimer, 1000);
 		
 		//Other
-		//hasOther = getIntent().getExtras().getBoolean();
+		hasOther = getIntent().getExtras().getBoolean("hasOther");
 		
 		Log.d("Archer","現在位於「"+RouteInfo.LatLngToAddressName(25.015508, 121.542471)+"」上");
 	}

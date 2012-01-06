@@ -46,19 +46,19 @@ public class ChooseVenueActivity extends Activity {
 	public void setListener(){
 		startButton.setOnClickListener(new OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Bundle b = new Bundle();
 				b.putString("start", startEditText.getText().toString());
 				b.putString("end", endEditText.getText().toString());
+				b.putBoolean("hasOther", getIntent().getExtras().getBoolean("hasOther"));
 				Intent intent = new Intent();
 				intent.putExtras(b);
-		
+				
 				intent.setClass(ChooseVenueActivity.this, FingerRunnerMapActivity.class);
 				
-				startActivityForResult(intent, 12345);
-				
+				startActivity(intent);
+				finish();
 			}
 		});
 	}

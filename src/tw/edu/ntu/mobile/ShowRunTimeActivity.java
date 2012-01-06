@@ -56,10 +56,8 @@ public class ShowRunTimeActivity extends Activity {
 	    }else{
 	    	timeTextView.setText("從「"+getIntent().getExtras().getString("start")+"」\n到「"+getIntent().getExtras().getString("end")+"」\n"+"你花了\n"+getIntent().getExtras().getLong("minius")+"分"+getIntent().getExtras().getLong("seconds")+"秒"+getIntent().getExtras().getLong("milliseconds"));
 	    }
-		
 		okButton.setOnClickListener(new OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				finish();
