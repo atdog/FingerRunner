@@ -7,10 +7,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 public class FingerUISetting extends Activity {
 	private EditText editTextName;
-	private Button saveButton;
+	private ImageButton saveButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,7 @@ public class FingerUISetting extends Activity {
 
 	private void initialize() {
 		editTextName = (EditText) findViewById(R.id.editTextName);
-		saveButton = (Button) findViewById(R.id.save_button);
+		saveButton = (ImageButton) findViewById(R.id.save_button);
 
 		SharedPreferences settings = getSharedPreferences("FingerRunner", 0);
 		String userName = settings.getString("name", "");

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.R.integer;
 import android.R.string;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ public class LanConnectionServer {
 	private final int DiscoveryPort = 9877;
 	private List<Socket> client = new ArrayList<Socket>();
 	private String nickname;
+	private Handler socketHandler;
 
 	public LanConnectionServer(Handler mainHandler,String nickname) {
 		this.mainHandler = mainHandler;
@@ -145,7 +147,7 @@ public class LanConnectionServer {
 
 	public void sendData(String data) {
 		try {
-			synchronized (client) {
+			synchronized (client.get(0)) {
 				BufferedOutputStream out = new BufferedOutputStream(client.get(
 						0).getOutputStream());
 				out.write(data.getBytes());
@@ -164,5 +166,13 @@ public class LanConnectionServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public int sizeOfClient() {
+		return client.size();
+	}
+	
+	public void setSocketHandler(Handler handler) {
+		socketHandler = handler;
 	}
 }

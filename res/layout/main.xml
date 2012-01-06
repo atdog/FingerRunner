@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background = "@drawable/background">
 
 	<!-- 0OsoYfV6EkxLvJZX4w3ZFBFxb0QHlaswGDqhqfQ 阿哲的-->
 	<!-- 0sztJXlgjBBIMdxXOpBF43Td5OX0aCXEqlvB-aA  -->
@@ -16,15 +17,15 @@
 		android:id="@+id/mapView"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:clickable="false" 
-		android:apiKey="0OsoYfV6EkxLvJZX4w3ZFBFxb0QHlaswGDqhqfQ" />
+		android:apiKey="0sztJXlgjBBIMdxXOpBF43Td5OX0aCXEqlvB-aA" />
 
         <ImageView
             android:id="@+id/meImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/test" />
+            android:src="@drawable/man" />
 
         <TextView
             android:id="@+id/hintTextView"

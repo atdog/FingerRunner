@@ -24,11 +24,12 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 public class FingerUIMultiple extends Activity {
-	private Button createButton;
-	public static LanConnectionClient client;
-	private Button searchButton;
+	private ImageButton createButton;
+	public static LanConnectionClient client = null;
+	private ImageButton searchButton;
 	private String raceName;
 	private Handler mainHandler = new Handler() {
 
@@ -57,8 +58,8 @@ public class FingerUIMultiple extends Activity {
 	}
 
 	private void initialize() {
-		createButton = (Button) findViewById(R.id.create_button);
-		searchButton = (Button) findViewById(R.id.search_button);
+		createButton = (ImageButton) findViewById(R.id.create_button);
+		searchButton = (ImageButton) findViewById(R.id.search_button);
 
 		createButton.setOnClickListener(new OnClickListener() {
 
@@ -106,8 +107,8 @@ public class FingerUIMultiple extends Activity {
 								FingerUIMultipleRoomServer.class);
 						Bundle extras = new Bundle();
 						extras.putString("raceName", raceName);
-						extras.putString("startLocation", startLocationString);
-						extras.putString("endLocation", endLocationString);
+						extras.putString("start", startLocationString);
+						extras.putString("end", endLocationString);
 						intent.putExtras(extras);
 						startActivity(intent);
 					}

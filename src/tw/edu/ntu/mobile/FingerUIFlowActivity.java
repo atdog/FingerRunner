@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class FingerUIFlowActivity extends Activity {
 	/** Called when the activity is first created. */
-	private Button singleButton;
-	private Button multipleButton;
-	private Button settingButton;
+	private ImageButton singleButton;
+	private ImageButton multipleButton;
+	private ImageButton settingButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,9 +29,9 @@ public class FingerUIFlowActivity extends Activity {
 		/**
 		 * initialize UI component
 		 */
-		singleButton = (Button) findViewById(R.id.single_button);
-		multipleButton = (Button) findViewById(R.id.multiple_button);
-		settingButton = (Button) findViewById(R.id.setting_button);
+		singleButton = (ImageButton) findViewById(R.id.single_button);
+		multipleButton = (ImageButton) findViewById(R.id.multiple_button);
+		settingButton = (ImageButton) findViewById(R.id.setting_button);
 		/**
 		 * set OnClick event
 		 */

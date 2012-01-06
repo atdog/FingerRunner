@@ -1,34 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="起點（ＳＴＡＲＴ）"
-            />
-        <EditText android:id="@+id/startEditText"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="台灣科技大學"
-            />
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="終點（ＥＮＤ）"
-            />
-         <EditText android:id="@+id/endEditText"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="台灣大學"
-            />
-         <Button android:id="@+id/startButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="ＳＴＡＲＴ"
-            />
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@drawable/background" android:weightSum="1">
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="0.67"></LinearLayout>
+	<LinearLayout android:layout_width="fill_parent"
+		android:orientation="vertical" android:layout_height="fill_parent"
+		android:layout_weight="0.33">
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="起點（ＳＴＡＲＴ）" />
+		<EditText android:id="@+id/startEditText"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:text="台灣科技大學" />
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="終點（ＥＮＤ）" />
+		<EditText android:id="@+id/endEditText" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="台灣大學" />
+		<Button android:id="@+id/startButton" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="ＳＴＡＲＴ" />
+	</LinearLayout>
 
- 
 </LinearLayout>

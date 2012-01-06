@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:background="@drawable/background" android:weightSum="1">
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="0.67"></LinearLayout>
+	<LinearLayout android:layout_width="fill_parent" android:orientation="vertical"
+		android:layout_height="fill_parent" android:layout_weight="0.33">
 
-    <Button
-        android:id="@+id/single_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="單人遊戲" />
+		<ImageButton android:background="@drawable/single_button" 
+			android:id="@+id/single_button" android:layout_width="110dp"
+			android:layout_height="110dp" android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:id="@+id/multiple_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="多人遊戲" />
+		<ImageButton android:background="@drawable/multiple_button"
+			android:id="@+id/multiple_button" android:layout_width="110dp"
+			android:layout_height="110dp" android:text="多人遊戲" android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:id="@+id/setting_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="設置選項" />
+		<ImageButton android:background="@drawable/setting_button"
+			android:id="@+id/setting_button" android:layout_width="110dp"
+			android:layout_height="100dp" android:text="設置選項" android:layout_centerHorizontal="true"/>
+
+	</LinearLayout>
 
 </LinearLayout>

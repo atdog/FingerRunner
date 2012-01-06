@@ -34,6 +34,8 @@ public class LanConnectionClient {
 	private List<host> hostsList = new ArrayList<host>();
 	private String nickname;
 	private Handler mainHandler;
+	private Handler handler;
+	private Handler socketHandler;
 
 	public LanConnectionClient(Context context,String nickname, Handler mainHandler) {
 		this.context = context;
@@ -82,6 +84,11 @@ public class LanConnectionClient {
 		}
 	}
 
+	
+	public void setHandler(Handler handler) {
+		this.handler = handler;
+	}
+	
 	public host[] showHosts() {
 		return hostsList.toArray(new host[0]);
 	}
@@ -107,16 +114,26 @@ public class LanConnectionClient {
 						String data;
 						int length;
 						Pattern pattern = Pattern.compile("name:(.*)");
+						Pattern locPattern = Pattern.compile("start:(.*),end:(.*)");
 						while ((length = in.read(b)) > 0)// <=0的話就是結束了
 						{
 							data = new String(b, 0, length);
 							Matcher matcher = pattern.matcher(data);
+							Matcher locMatcher = locPattern.matcher(data);
 							if(matcher.matches()) {
 								Message msg = new Message();
 								Bundle bundle = new Bundle();
 								bundle.putString("name", matcher.group(1));
 								msg.setData(bundle);
 								mainHandler.sendMessage(msg);
+							}
+							if(locMatcher.matches()) {
+								Message msg = new Message();
+								Bundle bundle = new Bundle();
+								bundle.putString("start", locMatcher.group(1));
+								bundle.putString("end", locMatcher.group(2));
+								msg.setData(bundle);
+								handler.sendMessage(msg);
 							}
 							Log.d("test", "Data:" + data);
 						}
@@ -177,5 +194,9 @@ public class LanConnectionClient {
 		WifiInfo wifiInfo = wifi.getConnectionInfo();
 		int ipAddress = wifiInfo.getIpAddress();
 		return String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
+	}
+	
+	public void setSocketHandler(Handler handler) {
+		socketHandler = handler;
 	}
 }

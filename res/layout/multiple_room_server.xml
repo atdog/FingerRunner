@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:background="@drawable/background" android:weightSum="1">
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="0.67"></LinearLayout>
+	<LinearLayout android:layout_width="fill_parent"
+		android:orientation="vertical" android:layout_height="fill_parent"
+		android:layout_weight="0.33">
+		<TextView android:id="@+id/raceNameTextView"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="賽道名稱： " android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/raceNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="賽道名稱： "
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+		<TextView android:id="@+id/player1_textview"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="玩家: " android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/player1_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="玩家: "
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+		<TextView android:id="@+id/player2_textview"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="玩家: " android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/player2_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="玩家: "
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <Button
-        android:id="@+id/start_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="開始" />
-
+		<ImageButton android:background="@drawable/ok_button" android:id="@+id/start_button" android:layout_width="120dp"
+			android:layout_height="120dp" android:text="開始" />
+	</LinearLayout>
 </LinearLayout>
