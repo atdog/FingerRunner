@@ -51,7 +51,7 @@ public class FingerRunnerMapActivity extends MapActivity {
 	private Handler centerHandler;
 	private Context myContext;
 	private Long startTime;
-	private int otherDirection;
+	private int otherDirection = 0;
 	private Handler timehandler = new Handler();
 	private Handler socketHandler = new Handler() {
 
@@ -63,6 +63,42 @@ public class FingerRunnerMapActivity extends MapActivity {
 			otherRunnerPoint = new GeoPoint((int) (yString * 1e6),
 					(int) (xString * 1e6));
 			otherDirection = Integer.parseInt(msg.getData().getString("direction"));
+			
+			if (hasOther && otherRunnerPoint != null) {
+				
+				MarkerOverlay markerOverlay;
+				mapView.getOverlays().remove(mapView.getOverlays().size()-1);
+				switch (otherDirection) {
+				
+				case 0:
+
+					markerOverlay = new MarkerOverlay(myContext,
+							otherRunnerPoint, R.drawable.up);
+					mapView.getOverlays().add(markerOverlay);
+					break;
+				case 1:
+
+					markerOverlay = new MarkerOverlay(myContext,
+							otherRunnerPoint, R.drawable.down);
+					mapView.getOverlays().add(markerOverlay);
+					break;
+				case 2:
+
+					markerOverlay = new MarkerOverlay(myContext,
+							otherRunnerPoint, R.drawable.left);
+					mapView.getOverlays().add(markerOverlay);
+					break;
+				case 3:
+
+					markerOverlay = new MarkerOverlay(myContext,
+							otherRunnerPoint, R.drawable.right);
+					mapView.getOverlays().add(markerOverlay);
+					break;
+
+				default:
+					break;
+				}
+			}
 		}
 
 	};
@@ -119,70 +155,9 @@ public class FingerRunnerMapActivity extends MapActivity {
 	OtherRunnerOverlay otherRunnerOverlay;
 	// Double otherRunner_Lat_y;
 	// Double otherRunner_Lng_x;
-	GeoPoint otherRunnerPoint;
+	GeoPoint otherRunnerPoint=null;
 	boolean hasOther = true;
 
-<<<<<<< HEAD
-=======
-	
-    private VelocityTracker m_tracker;
-    private int steps=0;//用來計算走了幾步
-    
-    public static boolean centerchange=true;
-    //用來計算往上往下的行為
-    int point0_down_Y=0;
-    int point0_up_Y=0;
-    int point1_down_Y=0;
-    int point1_up_Y=0;
-    
-    //用來計算左往右的行為
-    int point0_down_X=0;
-    int point0_up_X=0;
-    int point1_down_X=0;
-    int point1_up_X=0;
-    
-    boolean sendMessageToHandler=false;
-    
-    private long touchtime = 0;//用來判斷使用者是否同時用兩隻手在玩
-    private float totalLength = 0;
-    private int delayMillis = 500;
-    
-    //顯示主角的imageView
-    private ImageView meImageView;
-    
-    //顯示跑步方向的imageView
-    private ImageView directionImageView;
-    
-    //顯示路名以及提示資源的TextView
-    private TextView routeNameTextView;
-    private TextView hintTextView;
-    
-    private JSONArray conerList;//用來紀錄轉角資訊的JSONArray
-    private int coner_num;//用來紀錄到第幾個轉角的變數
-    private Boolean inLine;//用來判斷是否要到下一段路了
-    private Double preLat_y;//計算位移量 
-    private Double prelng_x;//計算位移量 
-    private Boolean showRouteName;//判斷這時候是否要顯示路名
-    private Boolean first=true;//判斷是否第一次載入畫面
-    
-    //記錄現在要往那邊走才是有效方向
-    private int direction;//0 1 2 3 就是上下左右
-    
-    //紀錄時間
-    Long minius;
-    Long seconds;
-    Long milliseconds;
-    
-    
-  //otherRunner
-    OtherRunnerOverlay otherRunnerOverlay;
-//    Double otherRunner_Lat_y;
-//    Double otherRunner_Lng_x;
-    GeoPoint otherRunnerPoint;
-    boolean hasOther = true;
-    boolean otherFinish = false;
-    
->>>>>>> 17183f23930007f4e36feba61430ce5c91d4a425
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -431,13 +406,12 @@ public class FingerRunnerMapActivity extends MapActivity {
 			Double nowlng_x = startPoint.getLongitudeE6() / 1000000.0;
 			
 			if (FingerUIMultipleRoomServer.server != null) {
-				FingerUIMultipleRoomServer.server.sendData(String.valueOf(nowLat_y)+","+String.valueOf(nowlng_x)+","+String.valueOf(direction));
+				FingerUIMultipleRoomServer.server.sendData(String.valueOf(nowLat_y)+","+String.valueOf(nowlng_x)+","+String.valueOf(direction)+",");
 			}
 			else if (FingerUIMultiple.client != null) {
-				FingerUIMultipleRoomServer.server.sendData(String.valueOf(nowLat_y)+","+String.valueOf(nowlng_x)+","+String.valueOf(direction));
+				FingerUIMultiple.client.sendData(String.valueOf(nowLat_y)+","+String.valueOf(nowlng_x)+","+String.valueOf(direction)+",");
 			}
 			
-<<<<<<< HEAD
 			// 下列四個變數為，用來幫助判斷是否在某段路上的變數
 			Double startLat_y;
 			Double endLat_y = 0.0;
@@ -449,29 +423,13 @@ public class FingerRunnerMapActivity extends MapActivity {
 
 			// Log.d("Archer",String.valueOf(startPoint.getLongitudeE6()/1000000.0));
 			// Log.d("Archer",String.valueOf(startPoint.getLatitudeE6()/1000000.0));
-			if (hasOther) {
 
-=======
-			//Log.d("Archer",String.valueOf(startPoint.getLongitudeE6()/1000000.0));
-			//Log.d("Archer",String.valueOf(startPoint.getLatitudeE6()/1000000.0));
-			if(hasOther){
+if (hasOther && otherRunnerPoint != null) {
 				
-				//otherFinish = XXX;
-				if(otherFinish){
-					Intent intent = new Intent();
-					intent.setClass(FingerRunnerMapActivity.this, ShowRunTimeActivity.class);
-					Bundle b = new Bundle();
-					b.putBoolean("hasOther",true);
-					b.putBoolean("first", false);
-					intent.putExtras(b);
-					startActivity(intent);
-					finish();
-				}
-				
->>>>>>> 17183f23930007f4e36feba61430ce5c91d4a425
 				MarkerOverlay markerOverlay;
+				mapView.getOverlays().remove(mapView.getOverlays().size()-1);
 				switch (otherDirection) {
-
+				
 				case 0:
 
 					markerOverlay = new MarkerOverlay(myContext,
@@ -501,7 +459,6 @@ public class FingerRunnerMapActivity extends MapActivity {
 					break;
 				}
 			}
-
 			// Log.d("map",newPoint.toString());
 
 			if ((Math.abs(nowLat_y - preLat_y) > (0.000025 * 6) || Math
@@ -521,6 +478,8 @@ public class FingerRunnerMapActivity extends MapActivity {
 
 			}
 
+			
+			
 			// 判斷現在是在那一段路上（用轉角跟轉角之間來判斷）
 			if (conerList != null && coner_num < conerList.length() - 1) {
 
@@ -672,7 +631,6 @@ public class FingerRunnerMapActivity extends MapActivity {
 								directionImageView
 										.setImageResource(R.drawable.arrow_left);
 							}
-<<<<<<< HEAD
 
 							if (nowlng_x < startLng_x && nowlng_x > endLng_x
 									&& !inLine) {
@@ -734,107 +692,6 @@ public class FingerRunnerMapActivity extends MapActivity {
 								meImageView.setImageResource(R.drawable.right);
 								directionImageView
 										.setImageResource(R.drawable.arrow_right);
-=======
-							
-						
-						
-						Log.d("Archer","end>>"+endLat_y+","+endLng_x);
-						Log.d("Archer","me>>"+nowLat_y+","+nowlng_x);
-						switch (direction) {
-						case 0:
-							if(nowLat_y>=endLat_y-0.000100){
-								Log.d("Archer","跑完了0 "+coner_num+" "+conerList.getJSONObject(coner_num).getJSONObject("end_location").getDouble("lat"));
-								Bundle b = new Bundle();
-								b.putString("start", getIntent().getExtras().getString("start"));
-								b.putString("end", getIntent().getExtras().getString("end"));
-								b.putLong("minius", minius);
-								b.putLong("seconds", seconds);
-								b.putLong("milliseconds", milliseconds);
-								b.putBoolean("hasOther", hasOther);
-								if(hasOther){
-									otherFinish=true;
-									b.putBoolean("first",true);
-								}
-								Intent intent = new Intent();
-								intent.putExtras(b);
-						
-								intent.setClass(FingerRunnerMapActivity.this, ShowRunTimeActivity.class);
-								
-								startActivity(intent);
-								
-								
-								finish();
-							}
-							break;
-						case 1:
-							if(nowLat_y-0.000100<=endLat_y){
-								Log.d("Archer","跑完了1 "+coner_num+" "+conerList.getJSONObject(coner_num).getJSONObject("end_location").getDouble("lat"));
-								Bundle b = new Bundle();
-								b.putString("start", getIntent().getExtras().getString("start"));
-								b.putString("end", getIntent().getExtras().getString("end"));
-								b.putLong("minius", minius);
-								b.putLong("seconds", seconds);
-								b.putLong("milliseconds", milliseconds);
-								b.putBoolean("hasOther", hasOther);
-								if(hasOther){
-									otherFinish=true;
-									b.putBoolean("first",true);
-								}
-								Intent intent = new Intent();
-								intent.putExtras(b);
-						
-								intent.setClass(FingerRunnerMapActivity.this, ShowRunTimeActivity.class);
-								
-								startActivity(intent);
-								finish();
-							}
-							
-							break;
-						case 2:
-							if(nowlng_x-0.000100<=endLng_x){
-								Log.d("Archer","跑完了2 "+coner_num+" "+conerList.getJSONObject(coner_num).getJSONObject("end_location").getDouble("lng"));
-								Bundle b = new Bundle();
-								b.putString("start", getIntent().getExtras().getString("start"));
-								b.putString("end", getIntent().getExtras().getString("end"));
-								b.putLong("minius", minius);
-								b.putLong("seconds", seconds);
-								b.putLong("milliseconds", milliseconds);
-								b.putBoolean("hasOther", hasOther);
-								if(hasOther){
-									otherFinish=true;
-									b.putBoolean("first",true);
-								}
-								Intent intent = new Intent();
-								intent.putExtras(b);
-						
-								intent.setClass(FingerRunnerMapActivity.this, ShowRunTimeActivity.class);
-								
-								startActivity(intent);
-								finish();
-							}
-							break;
-						case 3:
-							if(nowlng_x>=endLng_x-0.000100){
-								Log.d("Archer","跑完了3 "+coner_num+" "+conerList.getJSONObject(coner_num).getJSONObject("end_location").getDouble("lng"));
-								Bundle b = new Bundle();
-								b.putString("start", getIntent().getExtras().getString("start"));
-								b.putString("end", getIntent().getExtras().getString("end"));
-								b.putLong("minius", minius);
-								b.putLong("seconds", seconds);
-								b.putLong("milliseconds", milliseconds);
-								b.putBoolean("hasOther", hasOther);
-								if(hasOther){
-									otherFinish=true;
-									b.putBoolean("first",true);
-								}
-								Intent intent = new Intent();
-								intent.putExtras(b);
-						
-								intent.setClass(FingerRunnerMapActivity.this, ShowRunTimeActivity.class);
-								
-								startActivity(intent);
-								finish();
->>>>>>> 17183f23930007f4e36feba61430ce5c91d4a425
 							}
 
 							if (nowlng_x > startLng_x && nowlng_x < endLng_x

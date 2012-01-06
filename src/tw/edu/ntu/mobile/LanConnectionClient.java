@@ -115,11 +115,13 @@ public class LanConnectionClient {
 						int length;
 						Pattern pattern = Pattern.compile("name:(.*)");
 						Pattern locPattern = Pattern.compile("start:(.*),end:(.*)");
+						Pattern posPattern = Pattern.compile("(.*),(.*),(.*),");
 						while ((length = in.read(b)) > 0)// <=0的話就是結束了
 						{
 							data = new String(b, 0, length);
 							Matcher matcher = pattern.matcher(data);
 							Matcher locMatcher = locPattern.matcher(data);
+							Matcher posMatcher = posPattern.matcher(data);
 							if(matcher.matches()) {
 								Message msg = new Message();
 								Bundle bundle = new Bundle();
@@ -127,13 +129,22 @@ public class LanConnectionClient {
 								msg.setData(bundle);
 								mainHandler.sendMessage(msg);
 							}
-							if(locMatcher.matches()) {
+							else if(locMatcher.matches()) {
 								Message msg = new Message();
 								Bundle bundle = new Bundle();
 								bundle.putString("start", locMatcher.group(1));
 								bundle.putString("end", locMatcher.group(2));
 								msg.setData(bundle);
 								handler.sendMessage(msg);
+							}
+							else if(posMatcher.matches()) {
+								Message msg = new Message();
+								Bundle bundle = new Bundle();
+								bundle.putString("y", posMatcher.group(1));
+								bundle.putString("x", posMatcher.group(2));
+								bundle.putString("direction", posMatcher.group(3));
+								msg.setData(bundle);
+								socketHandler.sendMessage(msg);
 							}
 							Log.d("test", "Data:" + data);
 						}

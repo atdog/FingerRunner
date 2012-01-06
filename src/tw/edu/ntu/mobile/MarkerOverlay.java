@@ -34,7 +34,7 @@ public class MarkerOverlay extends Overlay {
 
 		// Read the image
 		BitmapFactory.Options opt = new BitmapFactory.Options();
-		//opt.inSampleSize = 5;
+		opt.inSampleSize = 5;
 		Bitmap markerImage = BitmapFactory.decodeResource(
 				context.getResources(), drawable, opt);
 

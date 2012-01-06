@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,12 +20,32 @@ public class FingerUIFlowActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//消除標題列
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//消除狀態列
+	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.uimain);
 
 		initialize();
 
 		checkAndSetting();
 	}
+
+	
+	
+	@Override
+	protected void onPause() {
+		if(FingerUIMultiple.client != null) {
+			FingerUIMultiple.client.stopClient();
+		}
+		if(FingerUIMultipleRoomServer.server != null) {
+			FingerUIMultipleRoomServer.server.stopServer();
+		}
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
+
+
 
 	private void initialize() {
 		/**

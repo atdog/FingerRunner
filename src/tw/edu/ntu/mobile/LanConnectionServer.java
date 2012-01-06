@@ -118,16 +118,27 @@ public class LanConnectionServer {
 							String data;
 							int length;
 							Pattern pattern = Pattern.compile("name:(.*)");
+							Pattern posPattern = Pattern.compile("(.*),(.*),(.*),");
 							while ((length = in.read(b)) > 0)// <=0的話就是結束了
 							{
 								data = new String(b, 0, length);
 								Matcher matcher = pattern.matcher(data);
+								Matcher posMatcher = posPattern.matcher(data);
 								if(matcher.matches()) {
 									Message message = new Message();
 									Bundle bundle = new Bundle();
 									bundle.putString("name", matcher.group(1));
 									message.setData(bundle);
 									mainHandler.sendMessage(message);
+								}
+								else if(posMatcher.matches()) {
+									Message msg = new Message();
+									Bundle bundle = new Bundle();
+									bundle.putString("y", posMatcher.group(1));
+									bundle.putString("x", posMatcher.group(2));
+									bundle.putString("direction", posMatcher.group(3));
+									msg.setData(bundle);
+									socketHandler.sendMessage(msg);
 								}
 								Log.d("test", "Data:" + data);
 							}
@@ -161,7 +172,9 @@ public class LanConnectionServer {
 	
 	public void stopServer() {
 		try {
-			client.get(0).close();
+			if(client.size() > 0) {
+				client.get(0).close();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

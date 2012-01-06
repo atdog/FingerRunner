@@ -17,7 +17,7 @@
         android:id="@+id/editTextRaceName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
-        android:singleLine="true">
+        android:singleLine="true" android:text="美食之旅">
 
         <requestFocus />
     </EditText>
@@ -34,7 +34,8 @@
         android:id="@+id/startLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:text="台灣科技大學"/>
 
     <TextView
         android:id="@+id/textView3"
@@ -48,7 +49,8 @@
         android:id="@+id/endLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:text="台灣大學"/>
 
     <LinearLayout
         android:id="@+id/linearLayout1"

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -40,6 +41,10 @@ public class FingerUIMultipleRoomServer extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//消除標題列
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//消除狀態列
+	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.multiple_room_server);
 
 		initialize();
@@ -73,6 +78,7 @@ public class FingerUIMultipleRoomServer extends Activity {
 				if (server.sizeOfClient() == 0) {
 					return;
 				}
+				server.sendStartSignal();
 				Bundle bundle = getIntent().getExtras();
 				bundle.putBoolean("hasOther", true);
 				server.sendData("start:" + bundle.getString("start") + ",end:"
