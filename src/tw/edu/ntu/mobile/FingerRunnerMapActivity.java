@@ -108,6 +108,7 @@ public class FingerRunnerMapActivity extends MapActivity {
 //    Double otherRunner_Lng_x;
     GeoPoint otherRunnerPoint;
     boolean hasOther = true;
+    boolean otherFinish = false;
     
 	/** Called when the activity is first created. */
 	@Override
@@ -360,6 +361,18 @@ public class FingerRunnerMapActivity extends MapActivity {
 			//Log.d("Archer",String.valueOf(startPoint.getLongitudeE6()/1000000.0));
 			//Log.d("Archer",String.valueOf(startPoint.getLatitudeE6()/1000000.0));
 			if(hasOther){
+				
+				//otherFinish = XXX;
+				if(otherFinish){
+					Intent intent = new Intent();
+					intent.setClass(FingerRunnerMapActivity.this, ShowRunTimeActivity.class);
+					Bundle b = new Bundle();
+					b.putBoolean("hasOther",true);
+					b.putBoolean("first", false);
+					intent.putExtras(b);
+					startActivity(intent);
+					finish();
+				}
 				
 				MarkerOverlay markerOverlay;
 				switch (direction) {
@@ -622,6 +635,10 @@ public class FingerRunnerMapActivity extends MapActivity {
 								b.putLong("seconds", seconds);
 								b.putLong("milliseconds", milliseconds);
 								b.putBoolean("hasOther", hasOther);
+								if(hasOther){
+									otherFinish=true;
+									b.putBoolean("first",true);
+								}
 								Intent intent = new Intent();
 								intent.putExtras(b);
 						
@@ -643,6 +660,10 @@ public class FingerRunnerMapActivity extends MapActivity {
 								b.putLong("seconds", seconds);
 								b.putLong("milliseconds", milliseconds);
 								b.putBoolean("hasOther", hasOther);
+								if(hasOther){
+									otherFinish=true;
+									b.putBoolean("first",true);
+								}
 								Intent intent = new Intent();
 								intent.putExtras(b);
 						
@@ -663,6 +684,10 @@ public class FingerRunnerMapActivity extends MapActivity {
 								b.putLong("seconds", seconds);
 								b.putLong("milliseconds", milliseconds);
 								b.putBoolean("hasOther", hasOther);
+								if(hasOther){
+									otherFinish=true;
+									b.putBoolean("first",true);
+								}
 								Intent intent = new Intent();
 								intent.putExtras(b);
 						
@@ -682,6 +707,10 @@ public class FingerRunnerMapActivity extends MapActivity {
 								b.putLong("seconds", seconds);
 								b.putLong("milliseconds", milliseconds);
 								b.putBoolean("hasOther", hasOther);
+								if(hasOther){
+									otherFinish=true;
+									b.putBoolean("first",true);
+								}
 								Intent intent = new Intent();
 								intent.putExtras(b);
 						
