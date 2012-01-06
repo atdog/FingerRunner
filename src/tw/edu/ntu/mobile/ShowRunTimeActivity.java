@@ -40,17 +40,10 @@ public class ShowRunTimeActivity extends Activity {
 		long other_milliseconds=0;
 		
 		if(getIntent().getExtras().getBoolean("hasOther")){
-			if(getIntent().getExtras().getLong("milliseconds")<other_milliseconds&&getIntent().getExtras().getLong("minius")<=other_minius&&getIntent().getExtras().getLong("seconds")<=other_seconds){
-				meIsFirst = true;
-			}else if(getIntent().getExtras().getLong("minius")<other_minius&&getIntent().getExtras().getLong("seconds")<=other_seconds){
-				meIsFirst = true;
-			}else if(getIntent().getExtras().getLong("minius")<other_minius){
-				meIsFirst = true;
-			}
-			if(meIsFirst){
-				timeTextView.setText("第一名 "+me+"\n "+getIntent().getExtras().getLong("minius")+"分"+getIntent().getExtras().getLong("seconds")+"秒"+getIntent().getExtras().getLong("milliseconds")+"\n第二名 "+other+"\n "+other_minius+"分"+other_seconds+"秒"+other_milliseconds);
+			if(getIntent().getExtras().getBoolean("first")){
+				timeTextView.setText("第一名 "+me+"\n第二名 "+other);
 			}else{
-				timeTextView.setText("第一名 "+other+"\n "+other_minius+"分"+other_seconds+"秒"+other_milliseconds+"\n第二名 "+me+"\n "+getIntent().getExtras().getLong("minius")+"分"+getIntent().getExtras().getLong("seconds")+"秒"+getIntent().getExtras().getLong("milliseconds"));
+				timeTextView.setText("第一名 "+other+"\n第二名 "+me);
 			}
 			
 	    }else{
